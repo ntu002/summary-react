@@ -19,11 +19,18 @@ function PostsList({ isPosting, onStopPosting }) {
   //     );
   //   }
 
+  const [posts, setPosts] = useState([]);
+
+  function addPostHandle(postData) {
+    //setPosts([postData, ...posts]);
+    setPosts((existingPosts) => [postData, ...existingPosts]);
+  }
+
   return (
     <>
       {isPosting && (
         <Modal onClose={onStopPosting}>
-          <NewPost onCancel={onStopPosting} />
+          <NewPost onCancel={onStopPosting} onAddPost={addPostHandle} />
         </Modal>
       )}
 
@@ -31,9 +38,20 @@ function PostsList({ isPosting, onStopPosting }) {
         onBodyChange={bodyChangeHandler}
         onAuthorChange={authorChangeHandler}
       /> */}
-      <ul className={classes.posts}>
-        <Post author="Author 2" body="Text two" />
-      </ul>
+      {posts.length > 0 && (
+        <ul className={classes.posts}>
+          <Post author="Author 2" body="Text two" />
+          {posts.map((post) => (
+            <Post key={post.body} author={post.author} body={post.body} />
+          ))}
+        </ul>
+      )}
+      {posts.length === 0 && (
+        <div style={{ textAlign: "center", color: "while" }}>
+          <h2>There are no post yet. </h2>
+          <p>Start adding some! </p>
+        </div>
+      )}
     </>
   );
 }
