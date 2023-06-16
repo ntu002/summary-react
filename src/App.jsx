@@ -3,7 +3,7 @@ import MainHeader from "./components/MainHeader";
 import { useState } from "react";
 
 function App() {
-  const [modalIsVisible, setModalIsVisible] = useState(false);
+  const [modalIsVisible, setModalIsVisible] = useState(true);
 
   function hideModalHandler() {
     setModalIsVisible(false);

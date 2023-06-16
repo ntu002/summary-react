@@ -1,6 +1,6 @@
-import { MdPostAdd, MdMessage } from 'react-icons/md';
+import { MdPostAdd, MdMessage } from "react-icons/md";
 
-import classes from './MainHeader.module.css';
+import classes from "./MainHeader.module.css";
 
 function MainHeader({ onCreatePost }) {
   return (
