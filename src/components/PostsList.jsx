@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import NewPost from "./NewPost";
 import Post from "./Post";
 import classes from "./PostsList.module.css";
 import Modal from "./Modal";
+import { MdAddTask } from "react-icons/md";
 
 function PostsList({ isPosting, onStopPosting }) {
   //   let modalContent;
@@ -19,15 +20,29 @@ function PostsList({ isPosting, onStopPosting }) {
   //     );
   //   }
 
+  // fetch('http://localhost:8080/posts').then(response => response.json()).then(data => {
+  //   setPosts(data.posts);
+  // });
+
   const [posts, setPosts] = useState([]);
 
+  useEffect(() => {
+    async function fetchPost() {
+      const response = await  fetch("http://localhost:8080/posts")
+      const resData = await response.json();
+      setPosts(resData.posts);
+    }
+
+    fetchPost();
+  }, []);
+
   function addPostHandle(postData) {
-    fetch('http://localhost:8080/posts', {
-      method: 'POST',
+    fetch("http://localhost:8080/posts", {
+      method: "POST",
       body: JSON.stringify(postData),
       headers: {
-        'Content-Type': 'application/json'
-      }
+        "Content-Type": "application/json",
+      },
     });
     //setPosts([postData, ...posts]);
     setPosts((existingPosts) => [postData, ...existingPosts]);
