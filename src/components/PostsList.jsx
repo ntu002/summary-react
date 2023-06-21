@@ -25,12 +25,15 @@ function PostsList({ isPosting, onStopPosting }) {
   // });
 
   const [posts, setPosts] = useState([]);
+  const [isFetching, setIsFetching] = useState(false);
 
   useEffect(() => {
     async function fetchPost() {
-      const response = await  fetch("http://localhost:8080/posts")
+      setIsFetching(true);
+      const response = await fetch("http://localhost:8080/posts");
       const resData = await response.json();
       setPosts(resData.posts);
+      setIsFetching(false);
     }
 
     fetchPost();
@@ -60,19 +63,22 @@ function PostsList({ isPosting, onStopPosting }) {
         onBodyChange={bodyChangeHandler}
         onAuthorChange={authorChangeHandler}
       /> */}
-      {posts.length > 0 && (
+
+      {!isFetching && posts.length > 0 && (
         <ul className={classes.posts}>
-          <Post author="Author 2" body="Text two" />
           {posts.map((post) => (
             <Post key={post.body} author={post.author} body={post.body} />
           ))}
         </ul>
       )}
-      {posts.length === 0 && (
+      {!isFetching && posts.length === 0 && (
         <div style={{ textAlign: "center", color: "while" }}>
           <h2>There are no post yet. </h2>
           <p>Start adding some! </p>
         </div>
+      )}
+      {isFetching && (
+        <p style={{ textAlign: "center", color: "while" }}>Loading posts... </p>
       )}
     </>
   );
